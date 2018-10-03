@@ -13,6 +13,7 @@ variable "nat_ami_map" {
     ap-northeast-1 = "ami-03cf3903"
     ap-northeast-2 = "ami-8e0fa6e0"
     sa-east-1      = "ami-fbfa41e6"
+    us-gov-west-1  = "ami-7db9d85e"
   }
 }
 

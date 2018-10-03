@@ -38,6 +38,50 @@ brew install terraform
 - IAMFullAccess
 - AWSKeyManagementServicePowerUser
 
+Note for AWS GovCloud there is no AWSKeyManagementServicePowerUser policy.  You'll need to create a policy as follows:
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "PcfTfKms",
+            "Effect": "Allow",
+            "Action": [
+                "kms:ListKeyPolicies",
+                "kms:UntagResource",
+                "kms:UpdateKeyDescription",
+                "kms:ListRetirableGrants",
+                "kms:GetKeyPolicy",
+                "kms:ListResourceTags",
+                "kms:DisableKey",
+                "kms:ListGrants",
+                "kms:GetParametersForImport",
+                "kms:TagResource",
+                "kms:GetKeyRotationStatus",
+                "kms:ScheduleKeyDeletion",
+                "kms:CreateAlias",
+                "kms:DescribeKey"
+            ],
+            "Resource": [
+                "arn:aws-us-gov:kms:*:*:key/*",
+                "arn:aws-us-gov:kms:*:*:alias/*"
+            ]
+        },
+        {
+            "Sid": "PcfTfKms1",
+            "Effect": "Allow",
+            "Action": [
+                "kms:ListKeys",
+                "kms:GenerateRandom",
+                "kms:ListAliases",
+                "kms:CreateKey"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
 ## Notes
 
 You can choose whether you would like an RDS or not. By default we have
@@ -96,6 +140,7 @@ tags               = {
 - ssl_cert_arn: **(optional)** Existing SSL certificate in AWS for HTTP load balancer configuration. Required unless `ssl_cert` or `ssl_ca_cert` is specified.
 - tags: **(optional)** A map of AWS tags that are applied to the created resources. By default, the following tags are set: Application = Cloud Foundry, Environment = $env_name
 - vpc_cidr: **(optional)** Internal CIDR block for the AWS VPC. Defaults to 10.0.0.0/16.
+- use_route53: **(optional)** Set to false if deploying to AWS GovCloud or to skip creating any Route53 records.
 
 ## Ops Manager (optional)
 - ops_manager: **(default: true)** Set to false if you don't want an Ops Manager

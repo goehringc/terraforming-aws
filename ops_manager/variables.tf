@@ -1,5 +1,7 @@
 variable "count" {}
 
+variable "use_route53" {}
+
 variable "optional_count" {}
 
 variable "private" {}

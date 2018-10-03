@@ -4,7 +4,7 @@ module "ops_manager" {
   count          = "${var.ops_manager ? 1 : 0}"
   optional_count = "${var.optional_ops_manager ? 1 : 0}"
   subnet_id      = "${var.ops_manager_private ? aws_subnet.management_subnets.0.id : aws_subnet.public_subnets.0.id}"
-
+  use_route53               = "${var.use_route53}"
   env_name                  = "${var.env_name}"
   ami                       = "${var.ops_manager_ami}"
   optional_ami              = "${var.optional_ops_manager_ami}"
